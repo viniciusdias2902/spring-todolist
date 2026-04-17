@@ -17,4 +17,9 @@ public class TodoListController {
         return ResponseEntity.ok(tasks);
     }
 
+    @PostMapping
+    public void createTask(@RequestBody Task task) {
+        tasks.add(task);
+    }
+
 }
