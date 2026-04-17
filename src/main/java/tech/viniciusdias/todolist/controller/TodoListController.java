@@ -41,4 +41,10 @@ public class TodoListController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> clearTasks() {
+        tasks.clear();
+        return ResponseEntity.noContent().build();
+    }
+
 }
