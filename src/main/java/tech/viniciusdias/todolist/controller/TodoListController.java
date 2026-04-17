@@ -2,10 +2,12 @@ package tech.viniciusdias.todolist.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.viniciusdias.todolist.controller.dto.TaskDescription;
 import tech.viniciusdias.todolist.domain.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tasks")
@@ -25,6 +27,17 @@ public class TodoListController {
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
         tasks.removeIf(task -> task.id().equals(taskId));
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<Void> updateTask(@PathVariable Long taskId, @RequestBody TaskDescription dto) {
+        tasks = tasks.stream().map(task -> {
+            if (task.id().equals(taskId)) {
+                return new Task(task.id(), dto.description());
+            }
+            return task;
+        }).collect(Collectors.toList());
         return ResponseEntity.noContent().build();
     }
 
